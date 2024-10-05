@@ -1,0 +1,10 @@
+/build
+/out
+/temp
+.vscode
+.VSCodeCounter
+.vs
+# *.user
+CMakePresets.json
+CMakeUserPresets.json
+vcpkg-configuration.json

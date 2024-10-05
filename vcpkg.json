@@ -1,0 +1,8 @@
+{
+  "dependencies": [
+    "glad",
+    "glm",
+    "sdl2",
+    "imgui"
+  ]
+}
