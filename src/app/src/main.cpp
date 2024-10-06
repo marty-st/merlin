@@ -2,20 +2,18 @@
 #include <glad/glad.h>
 #include <iostream>
 
+#include <osi/sdl.hpp>
+
 int main(int argc, char* argv[])
 {
     // Initial window size in pixels
     const int screen_width = 800;
     const int screen_height = 600;
     // Initialize SDL video subsystem (Returns 0 on success)
-    if (SDL_Init(SDL_INIT_VIDEO))
-    {
-        // Error initializing SDL
-        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, 
-                     "Could not initialize SDL2: %s",
-                     SDL_GetError());
+    if (!init_sdl(SDL_INIT_VIDEO))
         return 3;
-    }
+
+    
 
     // Description: https://wiki.libsdl.org/SDL2/SDL_GLattr
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);

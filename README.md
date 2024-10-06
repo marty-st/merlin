@@ -4,8 +4,8 @@ CMake
 vcpkg:
     vcpkg install sdl2 glad glm boost gtest imgui[opengl3-binding,sdl2-binding] --clean-after-build
     On Windows append the option --triplet=x64-windows to the command
-    run .bat script, in powershell as admin: .\vcpkg.exe integrate install
-    in project dir: follow microsoft tutorial, and then vcpkg add port sdl2; vcpkg add port glad
+    run .bat script, in powershell as admin in vcpkg dir: .\vcpkg.exe integrate install
+    in project dir: follow microsoft tutorial
 (Git)
 
 Followed these tutorials to set up the project:
