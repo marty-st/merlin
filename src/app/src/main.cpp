@@ -9,51 +9,22 @@ int main(int argc, char* argv[])
     // Initial window size in pixels
     const int screen_width = 800;
     const int screen_height = 600;
-    // Initialize SDL video subsystem (Returns 0 on success)
-    if (!init_sdl(SDL_INIT_VIDEO))
+
+    // Initialize SDL video subsystem
+    if (!init_SDL(SDL_INIT_VIDEO))
         return 3;
-
     
-
-    // Description: https://wiki.libsdl.org/SDL2/SDL_GLattr
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 5);
-    SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
-    SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
-    SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
-    SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
-    SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
-    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
-    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 2);
+    setup_SDL_GL_attributes();
 
     // Setup SDL Window
-    // Description: https://wiki.libsdl.org/SDL2/SDL_WindowFlags
-    static SDL_Window* window_ptr = SDL_CreateWindow("Merlin Engine", 
-                                          SDL_WINDOWPOS_CENTERED, 
-                                          SDL_WINDOWPOS_CENTERED,
-                                          screen_width,
-                                          screen_height,
-                                          SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
-
+    static SDL_Window* window_ptr = setup_SDL_window(screen_width, screen_height);
     if (!window_ptr)
-    {
-        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, 
-                     "Could not create window: %s", 
-                     SDL_GetError());
         return 3;
-    }
 
     // Setup OpenGL context
-    static SDL_GLContext gl_context_ptr = SDL_GL_CreateContext(window_ptr);
+    static SDL_GLContext gl_context_ptr = setup_SDL_GL_context(window_ptr);
     if (!gl_context_ptr)
-    {
-        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, 
-                     "Could not create OpenGL context: %s", 
-                     SDL_GetError());
         return 3;
-    }
 
     // Setup glad function pointers
     if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress))
