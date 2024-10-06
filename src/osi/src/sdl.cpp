@@ -1,7 +1,10 @@
-#include <SDL2/SDL.h>
 #include <osi/sdl.hpp>
 
+#include <stdexcept>
 #include <string>
+
+namespace osi
+{
 
 void SDL_error(const char* message)
 {
@@ -38,10 +41,10 @@ void setup_SDL_GL_attributes()
     SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 2);
 }
 
-SDL_Window* setup_SDL_window(const int screen_width, const int screen_height)
+void setup_SDL_window(const int screen_width, const int screen_height)
 {
     // Description: https://wiki.libsdl.org/SDL2/SDL_WindowFlags
-    SDL_Window* window_ptr = SDL_CreateWindow("Merlin Engine", 
+    window_ptr = SDL_CreateWindow("Merlin Engine", 
                                           SDL_WINDOWPOS_CENTERED, 
                                           SDL_WINDOWPOS_CENTERED,
                                           screen_width,
@@ -51,20 +54,65 @@ SDL_Window* setup_SDL_window(const int screen_width, const int screen_height)
     if (!window_ptr)
     {
         SDL_error("Could not create window: %s");
-        return nullptr;
+        throw;
     }
-
-    return window_ptr;
 }
 
-SDL_GLContext setup_SDL_GL_context(SDL_Window* window_ptr)
+void setup_SDL_GL_context()
 {
-    SDL_GLContext gl_context_ptr = SDL_GL_CreateContext(window_ptr);
+    gl_context_ptr = SDL_GL_CreateContext(window_ptr);
     if (!gl_context_ptr)
     {
         SDL_error("Could not create OpenGL context: %s"); 
-        return nullptr;
+        throw;
+    }
+}
+
+void SDL_start()
+{
+    setup_SDL_GL_attributes();
+
+    // Initialize SDL video subsystem
+    if (!init_SDL(SDL_INIT_VIDEO))
+        throw std::runtime_error("Error: Initialisation of the SDL2 library has FAILED.");
+
+    // Setup SDL Window
+    setup_SDL_window(screen_width, screen_height);
+    if (!window_ptr)
+        throw std::runtime_error("Error: The call 'SDL_CreateWindow' function has FAILED.");
+
+    // Setup OpenGL context
+    setup_SDL_GL_context();
+    if (!gl_context_ptr)
+        throw std::runtime_error("Error: The call 'SDL_GL_CreateContext' function has FAILED.");
+}
+
+void SDL_run(bool &running)
+{
+    SDL_Event event;
+
+        // Loop until there are no more pending events to process
+        while (SDL_PollEvent(&event) != 0)
+        {
+            if (event.type == SDL_QUIT)
+                running = false; // Stop running if the window is closed
+        }
+
+        SDL_GL_SwapWindow(window_ptr);
+}
+
+void SDL_finish()
+{
+    if (gl_context_ptr != nullptr)
+    {
+        SDL_GL_DeleteContext(gl_context_ptr);
+        gl_context_ptr = nullptr;
     }
 
-    return gl_context_ptr;
+    SDL_DestroyWindow(window_ptr);
+    window_ptr = nullptr;
+
+    SDL_Quit();
 }
+
+} // namespace osi
