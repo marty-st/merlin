@@ -16,7 +16,7 @@ void start();
 void run();
 
 /**
- * Terminates the program and frees all the resources reserved in the start() function.
+ * Terminates the program and frees all the resources reserved in the `start()` function.
  */
 void finish();
 
