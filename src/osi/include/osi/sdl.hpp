@@ -29,8 +29,9 @@ struct SDLConfig
 static SDL_Window* window_ptr = nullptr;
 // Pointer to the OpenGL context
 static SDL_GLContext gl_context_ptr = nullptr;
-
+// Initial SDL configuration
 static SDLConfig cfg;
+// Reflects SDL window state changes
 static Window window(cfg.window_width, cfg.window_height);
 
 /**
