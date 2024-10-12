@@ -1,18 +1,13 @@
-#include <iostream>
-
 #include <osi/run.hpp>
+
+#include <iostream>
 
 int main(int argc, char* argv[])
 {
     try
     {
-        osi::start();
-
         osi::run();
-
-        osi::finish();
     }
-
     catch(const std::exception& e)
     {
         osi::finish();

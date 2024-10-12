@@ -15,8 +15,8 @@ namespace osi
 // can be changed tho, if main.cpp call a different function altogether
 
 void start()
-{    
-    SDL_start();
+{   
+    SDL_start(cfg);
 
     // Setup glad function pointers
     if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress))
@@ -25,11 +25,12 @@ void start()
 
 void run()
 {
+    start();
     bool running = true;
     while (running)
     {
         SDL_run(running);
-        glViewport(0, 0, screen_width, screen_height);
+        glViewport(0, 0, cfg.window_width, cfg.window_height);
         assert(glGetError() == GL_NO_ERROR);
         glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
         assert(glGetError() == GL_NO_ERROR);

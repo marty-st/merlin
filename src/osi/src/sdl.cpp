@@ -41,15 +41,22 @@ void setup_SDL_GL_attributes()
     SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 2);
 }
 
-void setup_SDL_window(const int screen_width, const int screen_height)
+void setup_SDL_window(SDLConfig &cfg)
 {
     // Description: https://wiki.libsdl.org/SDL2/SDL_WindowFlags
-    window_ptr = SDL_CreateWindow("Merlin Engine", 
+    window_ptr = SDL_CreateWindow(cfg.window_title.c_str(), 
                                           SDL_WINDOWPOS_CENTERED, 
                                           SDL_WINDOWPOS_CENTERED,
-                                          screen_width,
-                                          screen_height,
-                                          SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+                                          cfg.window_width,
+                                          cfg.window_height,
+                                          SDL_WINDOW_OPENGL 
+                                          | (cfg.fullscreen 
+                                            ? SDL_WINDOW_FULLSCREEN_DESKTOP 
+                                            : (cfg.resizable 
+                                               ? SDL_WINDOW_RESIZABLE 
+                                               : SDL_WINDOW_BORDERLESS)
+                                            )
+                                 );
 
     if (!window_ptr)
     {
@@ -68,7 +75,7 @@ void setup_SDL_GL_context()
     }
 }
 
-void SDL_start()
+void SDL_start(SDLConfig &cfg)
 {
     setup_SDL_GL_attributes();
 
@@ -77,7 +84,7 @@ void SDL_start()
         throw std::runtime_error("Error: Initialisation of the SDL2 library has FAILED.");
 
     // Setup SDL Window
-    setup_SDL_window(screen_width, screen_height);
+    setup_SDL_window(cfg);
     if (!window_ptr)
         throw std::runtime_error("Error: The call 'SDL_CreateWindow' function has FAILED.");
 
