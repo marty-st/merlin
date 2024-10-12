@@ -94,6 +94,41 @@ void SDL_start(SDLConfig &cfg)
         throw std::runtime_error("Error: The call 'SDL_GL_CreateContext' function has FAILED.");
 }
 
+void SDL_window_event(const SDL_WindowEvent &window_event)
+{
+    switch (window_event.event)
+    {
+        case SDL_WINDOWEVENT_RESIZED:
+        case SDL_WINDOWEVENT_SIZE_CHANGED:
+            {
+                window.size_vec.x = window_event.data1; 
+                window.size_vec.y = window_event.data2;
+                window.is_resized = true; 
+            }
+            break;
+        case SDL_WINDOWEVENT_MINIMIZED:
+            window.is_minimized = true; 
+            break;
+        case SDL_WINDOWEVENT_MAXIMIZED:
+        case SDL_WINDOWEVENT_RESTORED:
+            window.is_minimized = false; 
+            break;
+        case SDL_WINDOWEVENT_ENTER:
+            window.is_mouse_in_window = true; 
+            break;
+        case SDL_WINDOWEVENT_LEAVE:
+            window.is_mouse_in_window = false; 
+            break;
+        case SDL_WINDOWEVENT_FOCUS_GAINED:
+            window.has_keyboard_focus = true; 
+            break;
+        case SDL_WINDOWEVENT_FOCUS_LOST:
+            window.has_keyboard_focus = false; 
+            break;
+        default: break;
+    }
+}
+
 void SDL_run(bool &running)
 {
     SDL_Event event;
@@ -101,8 +136,15 @@ void SDL_run(bool &running)
         // Loop until there are no more pending events to process
         while (SDL_PollEvent(&event) != 0)
         {
-            if (event.type == SDL_QUIT)
-                running = false; // Stop running if the window is closed
+            switch(event.type)
+            {
+                case SDL_QUIT:
+                    running = false; // Stop running if the window is closed
+                case SDL_WINDOWEVENT:
+                    SDL_window_event(event.window);
+                default:
+                    break;
+            }
         }
 
         SDL_GL_SwapWindow(window_ptr);

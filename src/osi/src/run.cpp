@@ -1,7 +1,6 @@
 #include <osi/run.hpp>
 #include <osi/sdl.hpp>
-
-#include <glad/glad.h>
+#include <osi/opengl.hpp>
 
 #include <stdexcept>
 #include <cassert>
@@ -30,12 +29,14 @@ void run()
     while (running)
     {
         SDL_run(running);
-        glViewport(0, 0, cfg.window_width, cfg.window_height);
+        glViewport(0, 0, window.size().x, window.size().y);
         assert(glGetError() == GL_NO_ERROR);
         glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
         assert(glGetError() == GL_NO_ERROR);
         glClear(GL_COLOR_BUFFER_BIT);
         assert(glGetError() == GL_NO_ERROR);
+
+        window.resetAfterFrame();
     }
 
     finish();
