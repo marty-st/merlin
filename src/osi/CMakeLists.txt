@@ -7,13 +7,18 @@ add_library(${THIS_TARGET_NAME}
             ./include/osi/sdl.hpp
             ./src/sdl.cpp
 
-            ./include/osi/opengl.hpp
-            
-            ./include/osi/window.hpp
+            ./include/osi/imgui.hpp
+            ./src/imgui.cpp
+
+            ./include/osi/gui.hpp
 
             ./include/osi/keyboard.hpp
 
             ./include/osi/mouse.hpp
 
+            ./include/osi/opengl.hpp
+
             ./include/osi/timer.hpp
+            
+            ./include/osi/window.hpp
             )

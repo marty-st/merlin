@@ -1,6 +1,7 @@
 #include <osi/run.hpp>
-#include <osi/sdl.hpp>
+#include <osi/imgui.hpp>
 #include <osi/opengl.hpp>
+#include <osi/sdl.hpp>
 
 #include <cassert>
 #include <stdexcept>
@@ -20,6 +21,8 @@ void start()
     // Setup glad function pointers
     if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress))
         throw std::runtime_error("Error: The call to 'gladLoadGLLoader' has FAILED.");
+
+    IMGUI_start();
 }
 
 void run()
@@ -35,6 +38,10 @@ void run()
 
         timer.updateBeforeFrame();
 
+        // start frame
+        IMGUI_new_frame();
+
+        // app update, render
         glViewport(0, 0, window.size().x, window.size().y);
         assert(glGetError() == GL_NO_ERROR);
         glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
@@ -42,10 +49,15 @@ void run()
         glClear(GL_COLOR_BUFFER_BIT);
         assert(glGetError() == GL_NO_ERROR);
 
+        // finish frame
         window.resetAfterFrame();
         keyboard.resetAfterFrame();
         mouse.resetAfterFrame();
         timer.updateAfterFrame();
+
+        IMGUI_render();
+
+        SDL_swap_buffer();
     }
 
     finish();
@@ -53,6 +65,7 @@ void run()
 
 void finish()
 {
+    IMGUI_finish();
     SDL_finish();
 }
 

@@ -1,4 +1,5 @@
 #include <osi/sdl.hpp>
+#include <osi/imgui.hpp>
 
 #include <stdexcept>
 #include <string>
@@ -95,6 +96,11 @@ void setup_SDL_GL_context()
     }
 }
 
+void SDL_init_ImGui()
+{
+    ImGui_ImplSDL2_InitForOpenGL(window_ptr, gl_context_ptr);
+}
+
 void SDL_start(SDLConfig &cfg)
 {
     setup_SDL_GL_attributes();
@@ -152,6 +158,9 @@ void SDL_window_event(const SDL_WindowEvent &window_event)
 
 void SDL_keyboard_event(const SDL_KeyboardEvent & keyboard_event)
 {
+    if (ImGui::GetIO().WantCaptureKeyboard)
+        return;
+
     switch (keyboard_event.type)
     {
         case SDL_KEYDOWN:
@@ -173,11 +182,17 @@ void SDL_keyboard_event(const SDL_KeyboardEvent & keyboard_event)
 
 void SDL_text_input_event(const SDL_TextInputEvent &text_event)
 {
+    if (ImGui::GetIO().WantCaptureKeyboard)
+        return;
+        
     keyboard.unicode_text += text_event.text;
 }
 
 void SDL_mouse_event(const SDL_Event &event)
 {
+    if (ImGui::GetIO().WantCaptureMouse)
+        return;
+
     switch (event.type)
     {
         case SDL_MOUSEMOTION:
@@ -216,6 +231,11 @@ void SDL_mouse_event(const SDL_Event &event)
     }
 }
 
+void SDL_swap_buffer()
+{
+    SDL_GL_SwapWindow(window_ptr);
+}
+
 void SDL_run(bool &running)
 {
     SDL_Event event;
@@ -223,6 +243,8 @@ void SDL_run(bool &running)
     // Loop until there are no more pending events to process
     while (SDL_PollEvent(&event) != 0)
     {
+        ImGui_ImplSDL2_ProcessEvent(&event);
+
         switch(event.type)
         {
             case SDL_QUIT:
@@ -248,8 +270,6 @@ void SDL_run(bool &running)
                 break;
         }
     }
-
-    SDL_GL_SwapWindow(window_ptr);
 }
 
 void SDL_finish()

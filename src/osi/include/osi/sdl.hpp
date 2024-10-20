@@ -80,6 +80,13 @@ void setup_SDL_window(SDLConfig &cfg);
 void setup_SDL_GL_context();
 
 /**
+ * Calls `ImGui_ImplSDL2_InitForOpenGL(window_ptr, gl_context_ptr)` from within the sdl.hpp context.
+ * This encapsulation exists, so the code can be split into separate files (ImGui related)
+ * instead of residing in the run.cpp file.
+ */
+void SDL_init_ImGui();
+
+/**
  * Calls all the setup and initializing SDL functions.
  * @param cfg Configuration structure containing properties of the initialized window
  */
@@ -112,6 +119,12 @@ void SDL_text_input_event(const SDL_TextInputEvent &text_event);
  * @param event Event generated from `SDL_PollEvent(&event)`
  */
 void SDL_mouse_event(const SDL_Event &event);
+
+/**
+ * Calls `SDL_GL_SwapWindow()` to double-buffer the OpenGL context. 
+ * This encapsulation exists, so we don't have to include SDL in the run.hpp file.
+ */
+void SDL_swap_buffer();
 
 /**
  * Runs the SDL related events of the application loop - input events and window render swap

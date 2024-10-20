@@ -3,6 +3,12 @@
     "glad",
     "glm",
     "sdl2",
-    "imgui"
+    { 
+      "name": "imgui", 
+      "features": [
+        "opengl3-binding", 
+        "sdl2-binding"
+      ] 
+    }
   ]
 }
