@@ -11,7 +11,7 @@ namespace osi
 // static function does not have external linkage, which means other compilation units 
 // (i.e. object files) cannot link to it, because it's not in the symbol table.
 // which is why, these are not static, cause they are called in main.cpp
-// can be changed tho, if main.cpp call a different function altogether
+// can be changed tho, if main.cpp calls a different function altogether.
 
 void start()
 {   
