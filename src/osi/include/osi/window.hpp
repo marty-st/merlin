@@ -8,6 +8,9 @@ namespace osi
 
 void SDL_window_event(const SDL_WindowEvent &);
 
+/**
+ * Encapsulates SDL Window.
+ */
 class Window
 {
     // friend trick, so there is no need to make setter methods

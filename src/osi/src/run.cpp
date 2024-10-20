@@ -2,8 +2,8 @@
 #include <osi/sdl.hpp>
 #include <osi/opengl.hpp>
 
-#include <stdexcept>
 #include <cassert>
+#include <stdexcept>
 
 namespace osi
 {
@@ -25,10 +25,16 @@ void start()
 void run()
 {
     start();
+
     bool running = true;
+    timer.initialize();
+
     while (running)
     {
         SDL_run(running);
+
+        timer.updateBeforeFrame();
+
         glViewport(0, 0, window.size().x, window.size().y);
         assert(glGetError() == GL_NO_ERROR);
         glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
@@ -37,6 +43,9 @@ void run()
         assert(glGetError() == GL_NO_ERROR);
 
         window.resetAfterFrame();
+        keyboard.resetAfterFrame();
+        mouse.resetAfterFrame();
+        timer.updateAfterFrame();
     }
 
     finish();

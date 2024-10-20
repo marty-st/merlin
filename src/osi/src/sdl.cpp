@@ -6,6 +6,26 @@
 namespace osi
 {
 
+static std::string to_key_name(SDL_Keycode const code)
+{
+    std::string name { SDL_GetKeyName(code) };
+    name.erase(std::remove_if(name.begin(), name.end(), isspace), name.end());
+    return name;
+}
+
+static std::string to_button_name(std::uint8_t const button_index)
+{
+    switch (button_index)
+    {
+        case SDL_BUTTON_LEFT: return "MouseLeft";
+        case SDL_BUTTON_RIGHT: return "MouseRight";
+        case SDL_BUTTON_MIDDLE: return "MouseMiddle";
+        case SDL_BUTTON_X1: return "MouseWheelUp";
+        case SDL_BUTTON_X2: return "MouseWheelDown";
+        default: return "MouseUNKNOWN";
+    }
+}
+
 void SDL_error(const char* message)
 {
     SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, 
@@ -92,6 +112,7 @@ void SDL_start(SDLConfig &cfg)
     setup_SDL_GL_context();
     if (!gl_context_ptr)
         throw std::runtime_error("Error: The call 'SDL_GL_CreateContext' function has FAILED.");
+
 }
 
 void SDL_window_event(const SDL_WindowEvent &window_event)
@@ -129,25 +150,106 @@ void SDL_window_event(const SDL_WindowEvent &window_event)
     }
 }
 
+void SDL_keyboard_event(const SDL_KeyboardEvent & keyboard_event)
+{
+    switch (keyboard_event.type)
+    {
+        case SDL_KEYDOWN:
+        {
+            std::string const name = to_key_name(keyboard_event.keysym.sym);
+            keyboard.just_pressed.insert(name);
+            keyboard.held_down.insert(name);
+            break;
+        }
+        case SDL_KEYUP:
+        {
+            std::string const name = to_key_name(keyboard_event.keysym.sym);
+            keyboard.just_released.insert(name);
+            keyboard.held_down.erase(name);
+            break;
+        }
+    }
+}
+
+void SDL_text_input_event(const SDL_TextInputEvent &text_event)
+{
+    keyboard.unicode_text += text_event.text;
+}
+
+void SDL_mouse_event(const SDL_Event &event)
+{
+    switch (event.type)
+    {
+        case SDL_MOUSEMOTION:
+            mouse.position.x = event.motion.x;
+            mouse.position.y = event.motion.y;
+            mouse.position_delta.x = event.motion.xrel;
+            mouse.position_delta.y = event.motion.yrel;
+            break;
+        case SDL_MOUSEBUTTONDOWN:
+        {
+            std::string const name = to_button_name(event.button.button);
+            mouse.just_pressed.insert(name);
+            mouse.held_down.insert(name);
+            break;
+        }
+        case SDL_MOUSEBUTTONUP:
+        {
+            std::string const name = to_button_name(event.button.button);
+            mouse.just_released.insert(name);
+            mouse.held_down.erase(name);
+            break;
+        }
+        case SDL_MOUSEWHEEL:
+            // TODO!
+            if(event.wheel.y > 0) // scroll up
+            {
+                std::string const name = to_button_name(SDL_BUTTON_X1);
+                mouse.just_pressed.insert(name);
+            }
+            else if(event.wheel.y < 0) // scroll down
+            {
+                std::string const name = to_button_name(SDL_BUTTON_X2);
+                mouse.just_pressed.insert(name);
+            }
+            break;
+    }
+}
+
 void SDL_run(bool &running)
 {
     SDL_Event event;
 
-        // Loop until there are no more pending events to process
-        while (SDL_PollEvent(&event) != 0)
+    // Loop until there are no more pending events to process
+    while (SDL_PollEvent(&event) != 0)
+    {
+        switch(event.type)
         {
-            switch(event.type)
-            {
-                case SDL_QUIT:
-                    running = false; // Stop running if the window is closed
-                case SDL_WINDOWEVENT:
-                    SDL_window_event(event.window);
-                default:
-                    break;
-            }
+            case SDL_QUIT:
+                running = false; // Stop running if the window is closed
+                break;
+            case SDL_WINDOWEVENT:
+                SDL_window_event(event.window);
+                break;
+            case SDL_KEYDOWN:
+            case SDL_KEYUP:
+                SDL_keyboard_event(event.key);
+                break;
+            case SDL_TEXTINPUT:
+                SDL_text_input_event(event.text);
+                break;
+            case SDL_MOUSEMOTION:
+            case SDL_MOUSEBUTTONDOWN:
+            case SDL_MOUSEBUTTONUP:
+            case SDL_MOUSEWHEEL:
+                SDL_mouse_event(event);
+                break;
+            default:
+                break;
         }
+    }
 
-        SDL_GL_SwapWindow(window_ptr);
+    SDL_GL_SwapWindow(window_ptr);
 }
 
 void SDL_finish()

@@ -10,4 +10,10 @@ add_library(${THIS_TARGET_NAME}
             ./include/osi/opengl.hpp
             
             ./include/osi/window.hpp
+
+            ./include/osi/keyboard.hpp
+
+            ./include/osi/mouse.hpp
+
+            ./include/osi/timer.hpp
             )
