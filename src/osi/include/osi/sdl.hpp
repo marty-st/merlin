@@ -129,4 +129,4 @@ void SDL_finish();
 
 } // namespace osi
 
-#endif
+#endif // SDL_INCLUDE

@@ -3,4 +3,4 @@
 
 #include <glad/glad.h>
 
-#endif
+#endif // OPENGL_INCLUDE

@@ -69,4 +69,4 @@ public:
 
 } // namespace osi
 
-#endif
+#endif // OSI_MOUSE_INCLUDE

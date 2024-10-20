@@ -94,4 +94,4 @@ public:
 
 } // namespace osi
 
-#endif
+#endif // OSI_TIMER_INCLUDE

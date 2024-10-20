@@ -1,5 +1,5 @@
-#ifndef ASSUMPTION_INCLUDED
-#define ASSUMPTION_INCLUDED
+#ifndef ASSUMPTION_INCLUDE
+#define ASSUMPTION_INCLUDE
 
 // Code from: https://gitlab.fi.muni.cz/qtrtik/rofibots
 
@@ -21,4 +21,4 @@ struct assumption_failure : public std::logic_error
 
 // #endif
 
-#endif
+#endif // ASSUMPTION_INCLUDE
