@@ -10,5 +10,4 @@
 std::string buildFailureMessage(char const* const file, int const line,
                                 char const* const func, std::string const& msg);
 
-
 #endif
