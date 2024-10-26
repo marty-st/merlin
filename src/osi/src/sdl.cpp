@@ -62,18 +62,18 @@ void setup_SDL_GL_attributes()
     SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 2);
 }
 
-void setup_SDL_window(SDLConfig &cfg)
+void setup_SDL_window(SDLConfig &sdl_cfg)
 {
     // Description: https://wiki.libsdl.org/SDL2/SDL_WindowFlags
-    window_ptr = SDL_CreateWindow(cfg.window_title.c_str(), 
+    window_ptr = SDL_CreateWindow(sdl_cfg.window_title.c_str(), 
                                           SDL_WINDOWPOS_CENTERED, 
                                           SDL_WINDOWPOS_CENTERED,
-                                          cfg.window_width,
-                                          cfg.window_height,
+                                          sdl_cfg.window_width,
+                                          sdl_cfg.window_height,
                                           SDL_WINDOW_OPENGL 
-                                          | (cfg.fullscreen 
+                                          | (sdl_cfg.fullscreen 
                                             ? SDL_WINDOW_FULLSCREEN_DESKTOP 
-                                            : (cfg.resizable 
+                                            : (sdl_cfg.resizable 
                                                ? SDL_WINDOW_RESIZABLE 
                                                : SDL_WINDOW_BORDERLESS)
                                             )
@@ -101,7 +101,7 @@ void SDL_init_ImGui()
     ImGui_ImplSDL2_InitForOpenGL(window_ptr, gl_context_ptr);
 }
 
-void SDL_start(SDLConfig &cfg)
+void SDL_start(SDLConfig &sdl_cfg)
 {
     setup_SDL_GL_attributes();
 
@@ -110,7 +110,7 @@ void SDL_start(SDLConfig &cfg)
         throw std::runtime_error("Error: Initialisation of the SDL2 library has FAILED.");
 
     // Setup SDL Window
-    setup_SDL_window(cfg);
+    setup_SDL_window(sdl_cfg);
     if (!window_ptr)
         throw std::runtime_error("Error: The call 'SDL_CreateWindow' function has FAILED.");
 
@@ -121,6 +121,13 @@ void SDL_start(SDLConfig &cfg)
 
 }
 
+void link_pointers_to_SDL(Keyboard* _keyboard, Mouse* _mouse, Window* _window)
+{
+    keyboard = _keyboard;
+    mouse = _mouse;
+    window = _window;
+}
+
 void SDL_window_event(const SDL_WindowEvent &window_event)
 {
     switch (window_event.event)
@@ -128,29 +135,29 @@ void SDL_window_event(const SDL_WindowEvent &window_event)
         case SDL_WINDOWEVENT_RESIZED:
         case SDL_WINDOWEVENT_SIZE_CHANGED:
             {
-                window.size_vec.x = window_event.data1; 
-                window.size_vec.y = window_event.data2;
-                window.is_resized = true; 
+                window->size_vec.x = window_event.data1; 
+                window->size_vec.y = window_event.data2;
+                window->is_resized = true; 
             }
             break;
         case SDL_WINDOWEVENT_MINIMIZED:
-            window.is_minimized = true; 
+            window->is_minimized = true; 
             break;
         case SDL_WINDOWEVENT_MAXIMIZED:
         case SDL_WINDOWEVENT_RESTORED:
-            window.is_minimized = false; 
+            window->is_minimized = false; 
             break;
         case SDL_WINDOWEVENT_ENTER:
-            window.is_mouse_in_window = true; 
+            window->is_mouse_in_window = true; 
             break;
         case SDL_WINDOWEVENT_LEAVE:
-            window.is_mouse_in_window = false; 
+            window->is_mouse_in_window = false; 
             break;
         case SDL_WINDOWEVENT_FOCUS_GAINED:
-            window.has_keyboard_focus = true; 
+            window->has_keyboard_focus = true; 
             break;
         case SDL_WINDOWEVENT_FOCUS_LOST:
-            window.has_keyboard_focus = false; 
+            window->has_keyboard_focus = false; 
             break;
         default: break;
     }
@@ -166,15 +173,15 @@ void SDL_keyboard_event(const SDL_KeyboardEvent & keyboard_event)
         case SDL_KEYDOWN:
         {
             std::string const name = to_key_name(keyboard_event.keysym.sym);
-            keyboard.just_pressed.insert(name);
-            keyboard.held_down.insert(name);
+            keyboard->just_pressed.insert(name);
+            keyboard->held_down.insert(name);
             break;
         }
         case SDL_KEYUP:
         {
             std::string const name = to_key_name(keyboard_event.keysym.sym);
-            keyboard.just_released.insert(name);
-            keyboard.held_down.erase(name);
+            keyboard->just_released.insert(name);
+            keyboard->held_down.erase(name);
             break;
         }
     }
@@ -185,7 +192,7 @@ void SDL_text_input_event(const SDL_TextInputEvent &text_event)
     if (ImGui::GetIO().WantCaptureKeyboard)
         return;
         
-    keyboard.unicode_text += text_event.text;
+    keyboard->unicode_text += text_event.text;
 }
 
 void SDL_mouse_event(const SDL_Event &event)
@@ -196,23 +203,23 @@ void SDL_mouse_event(const SDL_Event &event)
     switch (event.type)
     {
         case SDL_MOUSEMOTION:
-            mouse.position.x = event.motion.x;
-            mouse.position.y = event.motion.y;
-            mouse.position_delta.x = event.motion.xrel;
-            mouse.position_delta.y = event.motion.yrel;
+            mouse->position.x = event.motion.x;
+            mouse->position.y = event.motion.y;
+            mouse->position_delta.x = event.motion.xrel;
+            mouse->position_delta.y = event.motion.yrel;
             break;
         case SDL_MOUSEBUTTONDOWN:
         {
             std::string const name = to_button_name(event.button.button);
-            mouse.just_pressed.insert(name);
-            mouse.held_down.insert(name);
+            mouse->just_pressed.insert(name);
+            mouse->held_down.insert(name);
             break;
         }
         case SDL_MOUSEBUTTONUP:
         {
             std::string const name = to_button_name(event.button.button);
-            mouse.just_released.insert(name);
-            mouse.held_down.erase(name);
+            mouse->just_released.insert(name);
+            mouse->held_down.erase(name);
             break;
         }
         case SDL_MOUSEWHEEL:
@@ -220,12 +227,12 @@ void SDL_mouse_event(const SDL_Event &event)
             if(event.wheel.y > 0) // scroll up
             {
                 std::string const name = to_button_name(SDL_BUTTON_X1);
-                mouse.just_pressed.insert(name);
+                mouse->just_pressed.insert(name);
             }
             else if(event.wheel.y < 0) // scroll down
             {
                 std::string const name = to_button_name(SDL_BUTTON_X2);
-                mouse.just_pressed.insert(name);
+                mouse->just_pressed.insert(name);
             }
             break;
     }

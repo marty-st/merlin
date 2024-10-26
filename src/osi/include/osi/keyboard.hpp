@@ -1,8 +1,14 @@
 #ifndef OSI_KEYBOARD_INCLUDE
-#define KEYBOARD_INCLUDE
+#define OSI_KEYBOARD_INCLUDE
 
 #include <string>
 #include <unordered_set>
+
+// Declared so header can be compiled 
+// (not sure which piece of code requires this, maybe include of app/engine.hpp)
+
+struct SDL_KeyboardEvent;
+struct SDL_TextInputEvent;
 
 namespace osi
 {
@@ -29,8 +35,6 @@ class Keyboard
     std::string unicode_text = "";
 
 public:
-    Keyboard() = default;
-
     /**
      * @return Set of keys pressed down in the current loop iteration
      */

@@ -3,10 +3,16 @@
 
 #include <util/math.hpp>
 
+// Declared so header can be compiled 
+// (not sure which piece of code requires this, maybe include of app/engine.hpp)
+
+struct SDL_WindowEvent;
+
 namespace osi
 {
 
 void SDL_window_event(const SDL_WindowEvent &);
+void run();
 
 /**
  * Encapsulates SDL Window.
@@ -17,6 +23,7 @@ class Window
     // Eventually, when in-app options will allow to change these
     // parameters, setters might be necessary. If so, delete this. 
     friend void ::osi::SDL_window_event(const SDL_WindowEvent &);
+    friend void ::osi::run();
 
     // Window size in x, y coordinates
     glm::u32vec2 size_vec;

@@ -10,6 +10,11 @@ add_library(${THIS_TARGET_NAME}
             ./include/osi/imgui.hpp
             ./src/imgui.cpp
 
+            ./include/osi/application.hpp
+            ./src/application.cpp
+
+            ./include/osi/config.hpp
+
             ./include/osi/gui.hpp
 
             ./include/osi/keyboard.hpp

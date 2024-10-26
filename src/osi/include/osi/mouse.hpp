@@ -5,6 +5,11 @@
 #include <string>
 #include <unordered_set>
 
+// Declared so header can be compiled 
+// (not sure which piece of code requires this, maybe include of app/engine.hpp)
+
+union SDL_Event;
+
 namespace osi
 {
 
@@ -30,8 +35,6 @@ class Mouse
     std::unordered_set<std::string> held_down = {};
 
 public:
-    Mouse() = default;
-
     /**
      * @return Coordinates (x,y) of the mouse relative to SDL window
      */

@@ -1,12 +1,8 @@
 #ifndef RUN_INCLUDE
 #define RUN_INCLUDE
 
-#include <osi/timer.hpp>
-
 namespace osi
 {
-
-static Timer timer;
 
 /**
  * Initializes environment which communicates directly with the operating system.

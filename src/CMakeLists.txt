@@ -1,11 +1,11 @@
 include_directories(
-    # "${PROJECT_SOURCE_DIR}/src/app/include" // Uncomment when app/include has .hpp files
+    "${PROJECT_SOURCE_DIR}/src/app/include"
     "${PROJECT_SOURCE_DIR}/src/osi/include"
     "${PROJECT_SOURCE_DIR}/src/util/include"
     )
 
 set(MERLIN_LIBRARIES_TO_LINK_WITH
-    # app // Uncomment when app/include has .hpp files
+    # app # is executable
     osi
     util
     )
