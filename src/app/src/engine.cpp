@@ -1,5 +1,6 @@
 #include <app/engine.hpp>
 
+#include <gui/gui.hpp>
 #include <osi/opengl.hpp>
 #include <util/assumption.hpp>
 
@@ -7,7 +8,10 @@ namespace app
 {
 
 Engine::Engine(const osi::ApplicationConfig &app_cfg) 
-: Application(app_cfg) {}
+: Application(app_cfg), gui{std::make_unique<gui::GUI>(this)}
+{
+
+}
 
 void Engine::update()
 {
@@ -25,6 +29,8 @@ void Engine::render()
     ASSUME(glGetError() == GL_NO_ERROR);
     glClear(GL_COLOR_BUFFER_BIT);
     ASSUME(glGetError() == GL_NO_ERROR);
+
+    gui->render();
 }
 
 } // namespace app

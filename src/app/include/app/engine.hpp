@@ -3,6 +3,18 @@
 
 #include <osi/application.hpp>
 
+#include <memory>
+
+// Forward declaration for friend class functionality.
+namespace gui
+{
+
+class GUI;
+
+};
+
+using gui_ptr = std::unique_ptr<::gui::GUI>;
+
 namespace app
 {
 
@@ -11,6 +23,10 @@ namespace app
  */
 class Engine : public osi::Application
 {
+    friend class ::gui::GUI;
+    // Data used to render the GUI
+    gui_ptr gui = nullptr;
+
     /**
      * @copydoc ::osi::Application::update()
      */
