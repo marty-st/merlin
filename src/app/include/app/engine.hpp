@@ -14,12 +14,12 @@ class Engine : public osi::Application
     /**
      * @copydoc ::osi::Application::update()
      */
-    void update() override {}
+    void update() override;
 
     /**
      * @copydoc ::osi::Application::render()
      */
-    void render() override {}
+    void render() override;
 public:
     /**
      * @copydoc ::osi::Application::Application()

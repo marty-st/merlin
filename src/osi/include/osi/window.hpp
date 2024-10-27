@@ -22,7 +22,6 @@ class Window
     // Eventually, when in-app options will allow to change these
     // parameters, setters might be necessary. If so, delete this. 
     friend void ::osi::SDL_window_event(const SDL_WindowEvent &);
-    friend void ::osi::run();
 
     // Window size in x, y coordinates
     glm::u32vec2 size_vec;

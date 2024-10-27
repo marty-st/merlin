@@ -81,12 +81,18 @@ void run()
         IMGUI_new_frame();
 
         // app update, render
-        glViewport(0, 0, window->size().x, window->size().y);
-        assert(glGetError() == GL_NO_ERROR);
-        glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
-        assert(glGetError() == GL_NO_ERROR);
-        glClear(GL_COLOR_BUFFER_BIT);
-        assert(glGetError() == GL_NO_ERROR);
+        try
+        {
+            if (!timer->paused())
+                application_ptr->update();
+
+            application_ptr->render();
+        }
+        catch (...)
+        {
+            finish();
+            throw;
+        }
 
         // finish frame
         window->resetAfterFrame();
