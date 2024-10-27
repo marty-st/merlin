@@ -15,7 +15,8 @@ namespace osi
 {
 
 /**
- * Holds initial settings for SDL related objects.
+ * @copydoc ::osi::Config
+ * Derived from `Config`. Holds initial settings for SDL related objects.
  */
 struct SDLConfig : public Config
 {

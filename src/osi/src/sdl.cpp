@@ -223,7 +223,6 @@ void SDL_mouse_event(const SDL_Event &event)
             break;
         }
         case SDL_MOUSEWHEEL:
-            // TODO!
             if(event.wheel.y > 0) // scroll up
             {
                 std::string const name = to_button_name(SDL_BUTTON_X1);

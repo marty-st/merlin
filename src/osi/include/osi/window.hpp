@@ -12,7 +12,6 @@ namespace osi
 {
 
 void SDL_window_event(const SDL_WindowEvent &);
-void run();
 
 /**
  * Encapsulates SDL Window.
