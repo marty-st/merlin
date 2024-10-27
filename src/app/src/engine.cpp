@@ -1,6 +1,7 @@
 #include <app/engine.hpp>
 
 #include <osi/opengl.hpp>
+#include <util/assumption.hpp>
 
 namespace app
 {
@@ -16,11 +17,14 @@ void Engine::update()
 void Engine::render()
 {
     glViewport(0, 0, window().size().x, window().size().y);
-    assert(glGetError() == GL_NO_ERROR);
-    glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
-    assert(glGetError() == GL_NO_ERROR);
+    ASSUME(glGetError() == GL_NO_ERROR);
+    if (timer().passedIterations() % 10000 > 5000)
+        glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+    else
+        glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
+    ASSUME(glGetError() == GL_NO_ERROR);
     glClear(GL_COLOR_BUFFER_BIT);
-    assert(glGetError() == GL_NO_ERROR);
+    ASSUME(glGetError() == GL_NO_ERROR);
 }
 
 } // namespace app
