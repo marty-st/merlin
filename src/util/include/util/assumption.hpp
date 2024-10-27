@@ -12,12 +12,12 @@ struct assumption_failure : public std::logic_error
 {
     explicit assumption_failure(std::string const& msg) : std::logic_error(msg) {}
 };
-#define ASSUMPTION(C) do { if (!(C)) { [](){ throw assumption_failure(FAIL_MSG("Assumption failure.")); }(); }\
+#define ASSUME(C) do { if (!(C)) { [](){ throw assumption_failure(FAIL_MSG("Assumption failure.")); }(); }\
                          } while (false)
 
 // #else define assumption as this:
 
-// #define ASSUMPTION(C)
+// #define ASSUME(C)
 
 // #endif
 
