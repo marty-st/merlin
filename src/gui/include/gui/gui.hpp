@@ -2,6 +2,7 @@
 #define GUI_GUI
 
 #include <app/engine.hpp>
+#include <util/math.hpp>
 
 namespace gui
 {
@@ -10,7 +11,10 @@ class GUI
 {
     ::app::Engine* engine_ptr = nullptr;
 
+    void update();
+
     void fps();
+    void input();
 
 public:
     bool show_gui = true;
@@ -19,9 +23,11 @@ public:
     double fps_interval = 0.2;
     double last_fps_time = 0;
 
-    GUI(::app::Engine* _engine_ptr) : engine_ptr{_engine_ptr} {};
+    glm::u32vec2 w_size;
 
-    ::app::Engine* const engine() const { return engine_ptr; }
+    GUI(::app::Engine* _engine_ptr);
+
+    ::app::Engine* const engine() const;
 
     void render();
 

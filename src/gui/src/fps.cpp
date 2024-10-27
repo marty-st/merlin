@@ -23,14 +23,14 @@ void GUI::fps()
 {
     auto fps = update_fps(this, engine()->timer().passedSeconds(), engine()->timer().dt());
 
-    auto w_size = engine()->window().size();
     ImGui::SetNextWindowPos(ImVec2(w_size.x, 0), ImGuiCond_Always, ImVec2(1.0f, 0.0f));
 
     ImGui::Begin("##FPSCounter", 
         nullptr, 
         ImGuiWindowFlags_NoDecoration 
         | ImGuiWindowFlags_NoBackground 
-        | ImGuiWindowFlags_NoMove);
+        | ImGuiWindowFlags_NoMove
+        | ImGuiWindowFlags_AlwaysAutoResize);
 
     ImGui::Text("FPS: %.1f", fps);
 
