@@ -1,6 +1,6 @@
 #include <app/engine.hpp>
 
-#include <gui/gui.hpp>
+#include <gui/engine_gui.hpp>
 #include <osi/opengl.hpp>
 #include <util/assumption.hpp>
 
@@ -8,7 +8,7 @@ namespace app
 {
 
 Engine::Engine(const osi::ApplicationConfig &app_cfg) 
-: Application(app_cfg), gui{std::make_unique<gui::GUI>(this)}
+: Application(app_cfg), gui{std::make_unique<gui::EngineGUI>(this)}
 {
 
 }

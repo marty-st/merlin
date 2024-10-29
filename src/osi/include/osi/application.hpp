@@ -10,6 +10,17 @@
 #include <functional>
 #include <memory>
 
+// Forward declaration for friend class functionality.
+
+namespace gui
+{
+
+class GUI;
+
+};
+
+using gui_ptr = std::unique_ptr<::gui::GUI>;
+
 namespace osi
 {
 
@@ -44,6 +55,10 @@ class Application
 {
     // friend trick to access attributes directly in the run loop
     friend void ::osi::run();
+
+    friend class ::gui::GUI;
+    // Basic GUI, displays information based on keyboard, mouse, timer, window values
+    gui_ptr gui = nullptr;
 
     // Keyboard owned by the application
     osi::Keyboard app_keyboard;

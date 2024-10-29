@@ -1,25 +1,27 @@
 #ifndef GUI_GUI
 #define GUI_GUI
 
-#include <app/engine.hpp>
+#include <osi/application.hpp>
 #include <util/math.hpp>
 
 namespace gui
 {
 
 /**
- * Manager class for rendering the GUI. Has access to private members of `Engine`.
+ * Manager class for rendering the GUI. Has access to private members of `Application`.
  */
 class GUI
 {
-    // Pointer to the `Engine` instance
-    ::app::Engine* engine_ptr = nullptr;
+    // Pointer to the `Application`
+    ::osi::Application* application_ptr = nullptr;
 
+protected:
     /**
-     * Updates attributes of the GUI class each rendered frame, 
-     * before the `render()` method is called.
+     * Updates the value shown by `fps` every `fps_interval` seconds.
+     * @param current_time Current second
+     * @param dt Time it took to generate previous frame
      */
-    void update();
+    float updateFPS(const double &current_time, const float &dt);
 
     /**
      * Displays Frames-Per-Second counter on screen. Frequency of the updates
@@ -32,10 +34,23 @@ class GUI
      */
     void input();
 
+    /**
+     * Displays the current window resolution in pixels.
+     */
+    void resolution();
+
+    /**
+     * Updates attributes of the GUI class each rendered frame, 
+     * before the `render()` method is called.
+     */
+    virtual void update();
+
 public:
-    // If `false`, the `render()` function is skipped 
+    // If `false`, the `render()` method is skipped 
     bool show_gui = true;
 
+    // If `false`, the `fps()` method is skipped 
+    bool show_fps = true;
     // Last FPS value shown on screen
     float last_fps = 0;
     // Interval (in seconds) of calculating a new FPS value 
@@ -43,24 +58,28 @@ public:
     // Time stamp (in seconds) of the last FPS calculation
     double last_fps_time = 0;
 
+    // If `false`, the `input()` method is skipped 
+    bool show_input = true;
+    // If `false`, the `resolution()` method is skipped 
+    bool show_window_resolution = true;
+
     // Window size
     glm::u32vec2 w_size;
 
     /**
-     * @param _engine_ptr Pointer to the associated `Engine` instance
+     * @param _application_ptr Pointer to the associated `Application`
      */
-    GUI(::app::Engine* _engine_ptr);
+    GUI(::osi::Application* _application_ptr);
 
     /**
-     * @return Pointer to the associated `Engine` instance
+     * @return Pointer to the associated `Application`
      */
-    ::app::Engine* const engine() const;
+    ::osi::Application* const application() const;
 
     /**
      * Calls all the rendering functions of the GUI manager.
      */
-    void render();
-
+    virtual void render();
 };
 
 }

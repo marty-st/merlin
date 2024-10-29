@@ -6,14 +6,15 @@
 #include <memory>
 
 // Forward declaration for friend class functionality.
+
 namespace gui
 {
 
-class GUI;
+class EngineGUI;
 
 };
 
-using gui_ptr = std::unique_ptr<::gui::GUI>;
+using engine_gui_ptr = std::unique_ptr<::gui::EngineGUI>;
 
 namespace app
 {
@@ -23,9 +24,9 @@ namespace app
  */
 class Engine : public osi::Application
 {
-    friend class ::gui::GUI;
-    // Data used to render the GUI
-    gui_ptr gui = nullptr;
+    friend class ::gui::EngineGUI;
+    // Class used to render the Engine's GUI
+    engine_gui_ptr gui = nullptr;
 
     /**
      * @copydoc ::osi::Application::update()

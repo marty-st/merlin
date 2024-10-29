@@ -1,10 +1,13 @@
 #include <osi/application.hpp>
+#include <gui/gui.hpp>
 
 namespace osi
 {
 
 Application::Application(const ApplicationConfig &app_cfg)
-: app_window{app_cfg.window_width, app_cfg.window_height} {}
+: app_window{app_cfg.window_width, app_cfg.window_height}
+, gui{std::make_unique<gui::GUI>(this)} 
+{}
 
 osi::Keyboard const& Application::keyboard()
 {
