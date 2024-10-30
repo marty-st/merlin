@@ -2,6 +2,7 @@
 #define GUI_GUI
 
 #include <osi/application.hpp>
+#include <osi/gui.hpp>
 #include <util/math.hpp>
 
 namespace gui
@@ -26,18 +27,27 @@ protected:
     /**
      * Displays Frames-Per-Second counter on screen. Frequency of the updates
      * can be adjusted by changing the `fps_interval` attribute.
+     * @param rel_pos Vector that gets per-component multiplied with the `w_size` vector,
+     * ultimately defining the window's position
+     * @param pivot Pivot of the window
      */
-    void fps();
+    void fps(ImVec2 &&rel_pos, ImVec2 &&pivot);
 
     /**
      * Displays currently held down keyboard keys and mouse buttons.
+     * @param rel_pos Vector that gets per-component multiplied with the `w_size` vector,
+     * ultimately defining the window's position
+     * @param pivot Pivot of the window
      */
-    void input();
+    void input(ImVec2 &&rel_pos, ImVec2 &&pivot);
 
     /**
      * Displays the current window resolution in pixels.
+     * @param rel_pos Vector that gets per-component multiplied with the `w_size` vector,
+     * ultimately defining the window's position
+     * @param pivot Pivot of the window
      */
-    void resolution();
+    void resolution(ImVec2 &&rel_pos, ImVec2 &&pivot);
 
     /**
      * Updates attributes of the GUI class each rendered frame, 
