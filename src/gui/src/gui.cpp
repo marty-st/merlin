@@ -48,6 +48,22 @@ void GUI::fps(ImVec2 &&rel_pos = ImVec2(1.0f, 0.0f), ImVec2 &&pivot = ImVec2(1.0
     ImGui::End();
 }
 
+void GUI::resolution(ImVec2 &&rel_pos = ImVec2(1.0f, 0.05f), ImVec2 &&pivot = ImVec2(1.0f, 0.0f))
+{
+    ImGui::SetNextWindowPos(ImVec2(rel_pos.x * w_size.x, rel_pos.y * w_size.y), ImGuiCond_Always, pivot);
+
+    ImGui::Begin("##WindowResolution", 
+        nullptr, 
+        ImGuiWindowFlags_NoDecoration 
+        | ImGuiWindowFlags_NoBackground 
+        | ImGuiWindowFlags_NoMove
+        | ImGuiWindowFlags_AlwaysAutoResize);
+
+    ImGui::Text("%i x %i", w_size.x, w_size.y);
+
+    ImGui::End();
+}
+
 void GUI::input(ImVec2 &&rel_pos = ImVec2(0.5f, 1.0f), ImVec2 &&pivot = ImVec2(0.5f, 1.0f))
 {
     ImGui::SetNextWindowPos(ImVec2(rel_pos.x * w_size.x, rel_pos.y * w_size.y), ImGuiCond_Always, pivot);
@@ -74,22 +90,6 @@ void GUI::input(ImVec2 &&rel_pos = ImVec2(0.5f, 1.0f), ImVec2 &&pivot = ImVec2(0
     ImGui::End();
 }
 
-void GUI::resolution(ImVec2 &&rel_pos = ImVec2(1.0f, 0.05f), ImVec2 &&pivot = ImVec2(1.0f, 0.0f))
-{
-    ImGui::SetNextWindowPos(ImVec2(rel_pos.x * w_size.x, rel_pos.y * w_size.y), ImGuiCond_Always, pivot);
-
-    ImGui::Begin("##WindowResolution", 
-        nullptr, 
-        ImGuiWindowFlags_NoDecoration 
-        | ImGuiWindowFlags_NoBackground 
-        | ImGuiWindowFlags_NoMove
-        | ImGuiWindowFlags_AlwaysAutoResize);
-
-    ImGui::Text("%i x %i", w_size.x, w_size.y);
-
-    ImGui::End();
-}
-
 void GUI::update()
 {
     w_size = application()->window().size();
@@ -104,10 +104,10 @@ void GUI::render()
 
     if (show_fps)
         fps();
+    if (show_window_resolution)
+        resolution(ImVec2(1.0f, 15.0f / w_size.y));
     if (show_input)
         input();
-    if (show_window_resolution)
-        resolution();
 }
 
 } // namespace gui
