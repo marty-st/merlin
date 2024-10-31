@@ -1,0 +1,1 @@
+#include <graphics/graphical_object.hpp>
