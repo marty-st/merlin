@@ -31,7 +31,7 @@ protected:
      * ultimately defining the window's position
      * @param pivot Pivot of the window
      */
-    void fps(ImVec2 &&rel_pos, ImVec2 &&pivot);
+    void fps(ImVec2 &&rel_pos = ImVec2(1.0f, 0.0f), ImVec2 &&pivot = ImVec2(1.0f, 0.0f));
 
     /**
      * Displays the current window resolution in pixels.
@@ -39,7 +39,7 @@ protected:
      * ultimately defining the window's position
      * @param pivot Pivot of the window
      */
-    void resolution(ImVec2 &&rel_pos, ImVec2 &&pivot);
+    void resolution(ImVec2 &&rel_pos = ImVec2(1.0f, 0.05f), ImVec2 &&pivot = ImVec2(1.0f, 0.0f));
 
     /**
      * Displays currently held down keyboard keys and mouse buttons.
@@ -47,7 +47,7 @@ protected:
      * ultimately defining the window's position
      * @param pivot Pivot of the window
      */
-    void input(ImVec2 &&rel_pos, ImVec2 &&pivot);
+    void input(ImVec2 &&rel_pos = ImVec2(0.5f, 1.0f), ImVec2 &&pivot = ImVec2(0.5f, 1.0f));
 
     /**
      * Updates attributes of the GUI class each rendered frame, 

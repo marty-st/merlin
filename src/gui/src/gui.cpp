@@ -30,7 +30,7 @@ float GUI::updateFPS(const double &current_time, const float &dt)
     return fps;
 }
 
-void GUI::fps(ImVec2 &&rel_pos = ImVec2(1.0f, 0.0f), ImVec2 &&pivot = ImVec2(1.0f, 0.0f))
+void GUI::fps(ImVec2 &&rel_pos, ImVec2 &&pivot)
 {
     auto fps = updateFPS(application()->timer().passedSeconds(), application()->timer().dt());
 
@@ -48,7 +48,7 @@ void GUI::fps(ImVec2 &&rel_pos = ImVec2(1.0f, 0.0f), ImVec2 &&pivot = ImVec2(1.0
     ImGui::End();
 }
 
-void GUI::resolution(ImVec2 &&rel_pos = ImVec2(1.0f, 0.05f), ImVec2 &&pivot = ImVec2(1.0f, 0.0f))
+void GUI::resolution(ImVec2 &&rel_pos, ImVec2 &&pivot)
 {
     ImGui::SetNextWindowPos(ImVec2(rel_pos.x * w_size.x, rel_pos.y * w_size.y), ImGuiCond_Always, pivot);
 
@@ -64,7 +64,7 @@ void GUI::resolution(ImVec2 &&rel_pos = ImVec2(1.0f, 0.05f), ImVec2 &&pivot = Im
     ImGui::End();
 }
 
-void GUI::input(ImVec2 &&rel_pos = ImVec2(0.5f, 1.0f), ImVec2 &&pivot = ImVec2(0.5f, 1.0f))
+void GUI::input(ImVec2 &&rel_pos, ImVec2 &&pivot)
 {
     ImGui::SetNextWindowPos(ImVec2(rel_pos.x * w_size.x, rel_pos.y * w_size.y), ImGuiCond_Always, pivot);
 

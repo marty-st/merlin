@@ -6,18 +6,14 @@
 #include <iterator>
 
 /* PROTECTED */
-Frame::Frame(glm::vec3 _position_vec = glm::vec3(0.0f),
-             glm::vec3 rotation_vec = glm::vec3(0.0f),
-             glm::vec3 _scale_vec = glm::vec3(1.0f))
+Frame::Frame(glm::vec3 _position_vec, glm::vec3 rotation_vec, glm::vec3 _scale_vec)
 : position_vec{_position_vec}
 , scale_vec{_scale_vec}
 {    
     setRotationQuat(rotation_vec);
 }
 
-Frame::Frame(glm::vec3 _position_vec,
-             glm::quat _rotation_quat,
-             glm::vec3 _scale_vec = glm::vec3(1.0f))
+Frame::Frame(glm::vec3 _position_vec, glm::quat _rotation_quat, glm::vec3 _scale_vec)
 : position_vec{_position_vec}
 , rotation_quat{glm::normalize(_rotation_quat)}
 , scale_vec(_scale_vec) 
@@ -96,16 +92,12 @@ void Frame::decompose_model_mat(const glm::mat4& mat, glm::vec3& position, glm::
 }
 
 /* PUBLIC */
-frame_ptr Frame::create(glm::vec3 _position_vec = glm::vec3(0.0f), 
-                        glm::vec3 rotation_vec = glm::vec3(0.0f),
-                        glm::vec3 _scale_vec = glm::vec3(1.0f))
+frame_ptr Frame::create(glm::vec3 _position_vec, glm::vec3 rotation_vec, glm::vec3 _scale_vec)
 {
     return frame_ptr{ new Frame(_position_vec, rotation_vec, _scale_vec) };
 }
 
-frame_ptr Frame::create(glm::vec3 _position_vec,
-                        glm::quat _rotation_quat,
-                        glm::vec3 _scale_vec = glm::vec3(1.0f))
+frame_ptr Frame::create(glm::vec3 _position_vec, glm::quat _rotation_quat, glm::vec3 _scale_vec)
 {
     return frame_ptr{ new Frame(_position_vec, _rotation_quat, _scale_vec) };
 }

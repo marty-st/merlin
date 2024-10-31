@@ -32,7 +32,9 @@ class Frame : public std::enable_shared_from_this<Frame>
      * @param _rotation_vec Rotation (x,y,z) in Euler angles in local space
      * @param _scale_vec Scale (x,y,z) in local space
      */
-    Frame(glm::vec3 _position_vec, glm::vec3 rotation_vec, glm::vec3 _scale_vec);
+    Frame(glm::vec3 _position_vec = glm::vec3(0.0f),
+          glm::vec3 rotation_vec = glm::vec3(0.0f),
+          glm::vec3 _scale_vec = glm::vec3(1.0f));
 
     /**
      * Constructs `Frame` from the given parameters.
@@ -40,7 +42,9 @@ class Frame : public std::enable_shared_from_this<Frame>
      * @param rotation_quat Rotation in local space
      * @param _scale_vec Scale (x,y,z) in local space
      */
-    Frame(glm::vec3 _position_vec, glm::quat _rotation_quat, glm::vec3 _scale_vec);
+    Frame(glm::vec3 _position_vec,
+          glm::quat _rotation_quat,
+          glm::vec3 _scale_vec = glm::vec3(1.0f));
 
     /**
      * Constructs `Frame` from a reference of another `Frame`.
@@ -138,9 +142,9 @@ public:
      * @param _scale_vec Scale (x,y,z) in local space
      * @return Shared pointer to a `Frame`
      */
-    static frame_ptr create(glm::vec3 _position_vec, 
-                            glm::vec3 rotation_vec,
-                            glm::vec3 _scale_vec);
+    static frame_ptr create(glm::vec3 _position_vec = glm::vec3(0.0f), 
+                            glm::vec3 rotation_vec = glm::vec3(0.0f),
+                            glm::vec3 _scale_vec = glm::vec3(1.0f));
 
     /**
      * Static method. Creates a `std::shared_ptr<Frame>` from given parameters.
@@ -151,7 +155,7 @@ public:
      */
     static frame_ptr create(glm::vec3 _position_vec,
                             glm::quat _rotation_quat,
-                            glm::vec3 _scale_vec);
+                            glm::vec3 _scale_vec = glm::vec3(1.0f));
 
     /**
      * Static method. Creates a `std::shared_ptr<Frame>` from a decomposition of a given matrix.
