@@ -152,33 +152,48 @@ frame_ptr Frame::copy_deep(frame_ptr other_frame)
 /* GETTERS */
     /* LOCAL */
 glm::vec3 Frame::getPositionLocal() const { return position_vec; }
+
 glm::quat Frame::getRotationLocal() const { return rotation_quat; }
+
 glm::vec3 Frame::getScaleLocal() const { return scale_vec; }
 
 glm::vec3 Frame::getRotationAxisXLocal() const { return glm::normalize(glm::column(glm::toMat3(rotation_quat), 0)); }
+
 glm::vec3 Frame::getRotationAxisYLocal() const { return glm::normalize(glm::column(glm::toMat3(rotation_quat), 1)); }
+
 glm::vec3 Frame::getRotationAxisZLocal() const { return glm::normalize(glm::column(glm::toMat3(rotation_quat), 2)); }
 
 glm::mat4 Frame::getTranslationMatLocal() const { return glm::translate(glm::mat4(1.0f), position_vec); }
+
 glm::mat4 Frame::getRotationMatLocal() const { return glm::toMat4(rotation_quat); }
+
 glm::mat4 Frame::getInverseRotationMatLocal() const { return glm::inverse(getRotationMatLocal()); }
+
 glm::mat4 Frame::getScaleMatLocal() const { return glm::scale(glm::mat4(1.0f), scale_vec); }
 
 glm::mat4 Frame::getModelMatLocal() const { return getTranslationMatLocal() * getRotationMatLocal() * getScaleMatLocal(); }
+
 glm::mat4 Frame::getInverseModelMatLocal() const { return glm::inverse(getModelMatLocal()); }
 
     /* WORLD */
 glm::vec3 Frame::getPositionWorld() const { return get_position_from_mat(getModelMatWorld()); }
+
 glm::quat Frame::getRotationWorld() const { return get_rotation_from_mat(getModelMatWorld()); }
+
 glm::vec3 Frame::getScaleWorld() const { return get_scale_from_mat(getModelMatWorld()); }
 
 glm::vec3 Frame::getRotationAxisXWorld() const { return glm::normalize(glm::column(glm::toMat3(getRotationWorld()), 0)); }
+
 glm::vec3 Frame::getRotationAxisYWorld() const { return glm::normalize(glm::column(glm::toMat3(getRotationWorld()), 1)); }
+
 glm::vec3 Frame::getRotationAxisZWorld() const { return glm::normalize(glm::column(glm::toMat3(getRotationWorld()), 2)); }
 
 glm::mat4 Frame::getTranslationMatWorld() const { return glm::translate(glm::mat4(1.0f), get_position_from_mat(getModelMatWorld())); }
+
 glm::mat4 Frame::getRotationMatWorld() const { return glm::toMat4(get_rotation_from_mat(getModelMatWorld())); }
+
 glm::mat4 Frame::getInverseRotationMatWorld() const { return glm::inverse(getRotationMatWorld()); }
+
 glm::mat4 Frame::getScaleMatWorld() const { return glm::scale(glm::mat4(1.0f), get_scale_from_mat(getModelMatWorld())); }
 
 glm::mat4 Frame::getModelMatWorld() const 
@@ -195,11 +210,15 @@ glm::mat4 Frame::getModelMatWorld() const
 
     return *model_world;
 }
+
 glm::mat4 Frame::getInverseModelMatWorld() const { return glm::inverse(getModelMatWorld()); }
 
 glm::mat4 Frame::getParentModelMatWorld() const { return !parent.expired() ? parent.lock()->getModelMatWorld() : glm::mat4(1.0f); }
+
 glm::mat4 Frame::getParentInverseModelMatWorld() const { return !parent.expired() ? parent.lock()->getRotationMatWorld() : glm::mat4(1.0f); }
+
 glm::mat4 Frame::getParentRotationMatWorld() const { return  !parent.expired() ? parent.lock()->getInverseModelMatWorld() : glm::mat4(1.0f); }
+
 glm::mat4 Frame::getParentInverseRotationMatWorld() const { return  !parent.expired() ? parent.lock()->getInverseRotationMatWorld() : glm::mat4(1.0f); }
 
 /* SETTERS */
@@ -209,41 +228,51 @@ void Frame::setPosVec(glm::vec3 _position_vec)
     position_vec = _position_vec; 
     invalidateModelMatWorld(); 
 }
+
 void Frame::translatePosVec(glm::vec3 direction) 
 { 
     position_vec += direction; 
     invalidateModelMatWorld(); 
 }
+
 void Frame::translatePosVec(glm::mat4 matrix)
 {
     position_vec = matrix * glm::vec4(position_vec, 1.0f);
     invalidateModelMatWorld();
 }
+
+void Frame::normalizeQuat() { rotation_quat = glm::normalize(rotation_quat); }
+
 void Frame::setRotationQuat(glm::vec3 rotation_vec) 
 { 
     rotation_quat = glm::normalize(glm::tquat(glm::radians(rotation_vec))); 
     invalidateModelMatWorld(); 
 }
+
 void Frame::setRotationQuat(glm::quat _rotation_quat) 
 { 
     rotation_quat = glm::normalize(_rotation_quat); 
     invalidateModelMatWorld();
 }
+
 void Frame::setRotationQuat(const glm::mat4 &rotation_matrix)
 {
     rotation_quat = get_rotation_from_mat(rotation_matrix);
     invalidateModelMatWorld();
 }
+
 void Frame::rotateRotationQuat(glm::vec3 added_rotation) 
 { 
     rotation_quat = glm::normalize(glm::tquat(glm::radians(added_rotation)) * rotation_quat); 
     invalidateModelMatWorld(); 
 }
+
 void Frame::rotateRotationQuat(glm::quat added_rotation) 
 { 
     rotation_quat = glm::normalize(added_rotation * rotation_quat); 
     invalidateModelMatWorld(); 
 }
+
 void Frame::setScale(glm::vec3 _scale_vec) 
 { 
     scale_vec = _scale_vec; 
@@ -257,6 +286,7 @@ void Frame::setFrame(glm::vec3 _position_vec, glm::vec3 rotation_vec, glm::vec3 
     setScale(_scale_vec);
     invalidateModelMatWorld();
 }
+
 void Frame::setFrame(glm::vec3 _position_vec, glm::quat _rotation_quat, glm::vec3 _scale_vec)
 {
     setPosVec(_position_vec);
@@ -264,17 +294,17 @@ void Frame::setFrame(glm::vec3 _position_vec, glm::quat _rotation_quat, glm::vec
     setScale(_scale_vec);
     invalidateModelMatWorld();
 }
-/* WORLD */
+
+    /* WORLD */
 void Frame::translatePosVecWorld(glm::vec3 direction) 
 { 
     position_vec += glm::vec3(getParentInverseModelMatWorld() * glm::vec4(direction, 0.0f)); 
     invalidateModelMatWorld(); 
 }
 
-void Frame::normalizeQuat() { rotation_quat = glm::normalize(rotation_quat); }
-
 /* WORLD MODEL MATRIX SETTERS */
 void Frame::setModelMatWorld(glm::mat4 _model_world) const { model_world = std::make_unique<glm::mat4>(_model_world); }
+
 void Frame::invalidateModelMatWorld() const 
 { 
     for (auto &child : children)
@@ -377,6 +407,7 @@ void Frame::setParent(frame_weak_ptr _parent, bool recalculate_basis)
     parent = _parent; 
     invalidateModelMatWorld();
 }
+
 void Frame::removeParent() 
 {
     glm::vec3 position;
