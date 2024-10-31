@@ -9,6 +9,14 @@ class Object
 
 public:
     /**
+     * Default constructor.
+     * @param _frame Pointer to a `Frame`
+     */
+    Object(frame_ptr _frame);
+
+    virtual ~Object() = default;
+
+    /**
      * @copydoc Frame::getPositionLocal
      */
     glm::vec3 getPositionLocal() const;

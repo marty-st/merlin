@@ -1,5 +1,10 @@
 #include <common/object.hpp>
 
+Object::Object(frame_ptr _frame)
+: 
+frame(_frame) 
+{}
+
 /**
  * @copydoc Frame::getPositionLocal
  */
