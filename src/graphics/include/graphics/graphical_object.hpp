@@ -42,9 +42,16 @@ protected:
     // maybe when calling loadMesh, call it in a another method here that return the bbox
 
 public:
+    /**
+     * Creates a new graphical object with the given data. Atleast `Frame` and `Mesh` are required.
+     * @param _frame Pointer to a `Frame`
+     * @param _mesh Shared pointer to a `Mesh`
+     * @param _material Shared pointer to a `Material`
+     * @param textures Map of `TextureUsage` to shared pointers to `Texture`
+     */
     GraphicalObject(frame_ptr _frame, 
                     mesh_ptr _mesh, 
-                    material_ptr _material = nullptr, 
+                    material_ptr _material = std::make_shared<Material>(), 
                     std::unordered_map<TextureUsage, texture_ptr> textures = {} //, shader_ptr shader
     );
 
