@@ -6,4 +6,6 @@ add_library(${THIS_TARGET_NAME}
 
             ./include/common/frame.hpp
             ./src/frame.cpp
+
+            ./include/common/scene.hpp
             )

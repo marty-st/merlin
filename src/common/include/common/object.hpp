@@ -11,6 +11,7 @@
  */
 class Object
 {
+protected:
     frame_ptr frame;
 
 public:
