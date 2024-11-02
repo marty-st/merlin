@@ -3,6 +3,12 @@
 
 #include <common/frame.hpp>
 
+#include <memory>
+
+/**
+ * Wrapper around `Frame` that serves as a base for objects of various
+ * types. Inherit from this class to create objects with custom behavior.
+ */
 class Object
 {
     frame_ptr frame;
@@ -13,6 +19,11 @@ public:
      * @param _frame Pointer to a `Frame`
      */
     Object(frame_ptr _frame);
+    
+    /**
+     * @return Shared pointer to the underlying `Frame`
+     */
+    frame_ptr getFrame() const;
 
     virtual ~Object() = default;
 
