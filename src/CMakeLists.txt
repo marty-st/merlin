@@ -5,6 +5,7 @@ include_directories(
     "${PROJECT_SOURCE_DIR}/src/graphics/include"
     "${PROJECT_SOURCE_DIR}/src/gui/include"
     "${PROJECT_SOURCE_DIR}/src/osi/include"
+    "${PROJECT_SOURCE_DIR}/src/physics/include"
     "${PROJECT_SOURCE_DIR}/src/util/include"
     )
 
@@ -15,6 +16,7 @@ set(MERLIN_LIBRARIES_TO_LINK_WITH
     graphics
     gui
     osi
+    physics
     util
     )
 
@@ -29,6 +31,8 @@ add_subdirectory(./gui)
 message("-- gui")
 add_subdirectory(./osi)
 message("-- osi")
+add_subdirectory(./physics)
+message("-- physics")
 add_subdirectory(./util)
 message("-- util")
 

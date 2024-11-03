@@ -3,9 +3,12 @@ set(THIS_TARGET_NAME graphics)
 add_library(${THIS_TARGET_NAME}
             ./include/graphics/graphical_object.hpp
             ./src/graphical_object.cpp
-
+            
             ./include/graphics/light_object.hpp
             ./src/light_object.cpp
+
+            ./include/graphics/light.hpp
+            ./src/light.cpp
             
             ./include/graphics/material.hpp
             ./src/material.cpp
