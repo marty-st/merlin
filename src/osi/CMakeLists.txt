@@ -23,6 +23,8 @@ add_library(${THIS_TARGET_NAME}
 
             ./include/osi/opengl.hpp
 
+            ./include/osi/stb_image.h
+
             ./include/osi/timer.hpp
             
             ./include/osi/window.hpp

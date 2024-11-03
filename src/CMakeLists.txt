@@ -1,6 +1,7 @@
 include_directories(
     "${PROJECT_SOURCE_DIR}/src/app/include"
     "${PROJECT_SOURCE_DIR}/src/common/include"
+    "${PROJECT_SOURCE_DIR}/src/file/include"
     "${PROJECT_SOURCE_DIR}/src/graphics/include"
     "${PROJECT_SOURCE_DIR}/src/gui/include"
     "${PROJECT_SOURCE_DIR}/src/osi/include"
@@ -10,6 +11,7 @@ include_directories(
 set(MERLIN_LIBRARIES_TO_LINK_WITH
     # app # is executable
     common
+    file
     graphics
     gui
     osi
@@ -19,6 +21,8 @@ set(MERLIN_LIBRARIES_TO_LINK_WITH
 message("Including the following libraries to the build:")
 add_subdirectory(./common)
 message("-- common")
+add_subdirectory(./file)
+message("-- file")
 add_subdirectory(./graphics)
 message("-- graphics")
 add_subdirectory(./gui)

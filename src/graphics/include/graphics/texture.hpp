@@ -83,7 +83,7 @@ public:
      * @param texture_file Path to the texture file
      * @return Shared pointer to the texture object
      */
-    // static texture_ptr loadTexture(const std::filesystem::path texture_file);
+    static texture_ptr createTexture2D(const std::filesystem::path texture_file);
 
     /**
      * Loads a cube texture from the given files.
@@ -91,7 +91,7 @@ public:
      * @param cube_texture_files Array of the 6 paths to the cube texture files. 
      * @return Shared pointer to the texture object
      */
-    // static texture_ptr loadCubeTexture(const std::array<std::filesystem::path, 6> &cube_texture_files);
+    static texture_ptr createTextureCube(const std::array<std::filesystem::path, 6> &cube_texture_files);
 };
 
 #endif // TEXTURE_INCLUDE

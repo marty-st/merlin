@@ -17,6 +17,7 @@ add_library(${THIS_TARGET_NAME}
             ./src/ogl_bo.cpp
             
             ./include/graphics/camera_object.hpp
+            ./src/camera_object.cpp
 
             ./include/graphics/ebo.hpp
 
